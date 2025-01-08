@@ -1,72 +1,98 @@
-/* General styles */
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #006400; /* Fallback color in case the image doesn't load */
+    background-color: #006400; /* Green table background */
     color: white;
     text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Blackjack Table */
+#blackjack-table {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    background: #003300; /* Dark green for the table */
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.7);
+    border: 2px solid #4CAF50;
+}
+
+/* Bank Section */
+#bank-section {
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #FFD700; /* Gold for the bank display */
+}
+
+/* Betting Area */
+#betting-area {
+    margin-bottom: 20px;
+}
+
+#betting-area p {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#chips {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.chip {
+    background-color: #444;
+    color: white;
+    border: 2px solid white;
+    border-radius: 50%;
+    padding: 15px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.chip:hover {
+    background-color: gold;
+    color: black;
+}
+
+/* Dealer and Player Sections */
+#dealer-section, #player-section {
+    margin: 30px 0;
 }
 
 h2 {
     margin: 0;
     font-size: 24px;
-    color: gold;
+    color: #FFD700; /* Gold for section titles */
 }
 
-#blackjack-table {
-    position: relative;
-    width: 900px; /* Adjust to match your table image size */
-    height: 600px; /* Adjust to match your table image size */
-    margin: 20px auto;
-    background-image: url('image.png'); /* Replace with the correct path to your table image */
-    background-size: cover;
-    background-position: center;
-    border-radius: 10px;
-}
-
-/* Dealer area */
-#dealer-area {
-    position: absolute;
-    top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-}
-
-#dealer-cards {
-    position: relative;
+.cards {
     display: flex;
     justify-content: center;
-    gap: 15px;
-    margin-top: 10px;
+    gap: 10px;
+    margin: 10px 0;
 }
 
-/* Player area */
-#player-area {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-}
-
-#player-cards {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 10px;
+.cards img {
+    width: 80px;
+    height: 120px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
 }
 
 /* Controls */
 #controls {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
+    justify-content: center;
     gap: 10px;
+    margin-top: 20px;
 }
 
 button {
@@ -75,8 +101,9 @@ button {
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
-    cursor: pointer;
     font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
@@ -84,26 +111,10 @@ button:hover {
 }
 
 /* Result Message */
-#message {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 28px;
+#result-message {
+    margin-top: 20px;
+    font-size: 24px;
     font-weight: bold;
-    display: none; /* Initially hidden */
-}
-
-#message h2 {
-    margin: 0;
-}
-
-/* Card Styles */
-#dealer-cards img,
-#player-cards img {
-    width: 80px;
-    height: 120px;
-    border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    color: white;
+    display: none; /* Hidden by default */
 }
