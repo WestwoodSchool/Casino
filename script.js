@@ -1,4 +1,4 @@
-// Full Card Image Mapping from the ACBL site
+// Card Image Mapping from ACBL Site
 const cardImages = {
     '2H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/2H.png',
     '3H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/3H.png',
