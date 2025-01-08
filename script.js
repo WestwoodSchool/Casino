@@ -6,26 +6,31 @@ const startButton = document.getElementById('start-button');
 const homeContainer = document.getElementById('home-container');
 const gameCards = document.querySelectorAll('.game-card');
 
-// Event: Video Ends
+// Add blur effect to the video during the last second
+introVideo.addEventListener('timeupdate', () => {
+    const timeRemaining = introVideo.duration - introVideo.currentTime;
+    if (timeRemaining <= 1) {
+        introVideo.style.filter = 'blur(10px)'; // Add blur effect
+    }
+});
+
+// Show overlay and button when the video ends
 introVideo.addEventListener('ended', () => {
-    // Display the overlay with the "Enter" button
-    introOverlay.style.display = 'flex';
+    introOverlay.style.display = 'flex'; // Display overlay
 });
 
-// Event: Enter Button Click
+// Handle "Enter" button click
 startButton.addEventListener('click', () => {
-    // Hide the intro section
-    introContainer.style.display = 'none';
-    // Show the home page
-    homeContainer.style.display = 'flex';
+    introContainer.style.display = 'none'; // Hide intro section
+    homeContainer.style.display = 'flex'; // Show home page
 });
 
-// Event: Game Card Click
+// Add event listeners to game cards
 gameCards.forEach(card => {
     card.addEventListener('click', (e) => {
-        const game = e.target.dataset.game; // Get the game type from the button
+        const game = e.target.dataset.game; // Get the selected game from the button
         alert(`Navigating to ${game} game...`); // Placeholder for game navigation
-        // Replace the alert with actual navigation logic or a page load for the game
-        // Example: window.location.href = `${game}.html`;
+        // To navigate to another page, uncomment the line below:
+        // window.location.href = `${game}.html`;
     });
 });
