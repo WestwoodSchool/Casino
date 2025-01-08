@@ -21,7 +21,7 @@ let dealerScore = 0;
 let bank = 900;
 let currentBet = 100;
 
-// Card Image Mapping from ACBL Site
+// Card Image Mapping
 const cardImages = {
     '2H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/2H.png',
     '3H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/3H.png',
@@ -79,15 +79,16 @@ const cardImages = {
 
 // Intro Video Event
 introVideo.addEventListener('ended', () => {
-    // Show overlay when the video ends
+    // Display the overlay and position the button at chest level
     introOverlay.style.display = 'flex';
-    introVideo.style.objectFit = 'cover'; // Freeze the last frame
+    introOverlay.style.justifyContent = 'center';
+    introOverlay.style.alignItems = 'center';
 });
 
 // Start Game Button
 startGameButton.addEventListener('click', () => {
-    introContainer.style.display = 'none'; // Hide intro section
-    gameContainer.style.display = 'block'; // Show game section
+    introContainer.style.display = 'none'; // Hide the intro section
+    gameContainer.style.display = 'block'; // Show the game section
     initializeGame(); // Start the game
 });
 
@@ -97,8 +98,8 @@ function initializeGame() {
     dealerCards = [];
     createDeck();
     shuffleDeck();
-    updateUI();
     dealInitialCards();
+    updateUI();
 }
 
 // Create Deck
@@ -125,31 +126,14 @@ function shuffleDeck() {
 function dealInitialCards() {
     playerCards.push(deck.pop(), deck.pop());
     dealerCards.push(deck.pop(), deck.pop());
-    updateUI();
-
-    if (calculateScore(playerCards) === 21) {
-        endGame('Blackjack! You Win!');
-    } else if (calculateScore(dealerCards) === 21) {
-        endGame('Dealer has Blackjack! You Lose!');
-    }
-}
-
-// Deal Card
-function dealCard(hand, area) {
-    const card = deck.pop();
-    hand.push(card);
-    const img = document.createElement('img');
-    img.src = cardImages[card];
-    document.getElementById(area).appendChild(img);
 }
 
 // Calculate Score
 function calculateScore(cards) {
     let score = 0;
     let aces = 0;
-
     cards.forEach(card => {
-        const value = card.slice(0, -1); // Get the value, ignoring suit
+        const value = card.slice(0, -1); // Extract value from card
         if (['J', 'Q', 'K'].includes(value)) {
             score += 10;
         } else if (value === 'A') {
@@ -159,12 +143,10 @@ function calculateScore(cards) {
             score += parseInt(value);
         }
     });
-
     while (score > 21 && aces > 0) {
         score -= 10;
         aces -= 1;
     }
-
     return score;
 }
 
@@ -193,31 +175,23 @@ function updateUI() {
     currentBetEl.textContent = `$${currentBet}`;
 }
 
-// Player Hits
-function hit() {
+// Player Actions
+document.getElementById('hit-button').addEventListener('click', () => {
     dealCard(playerCards, 'player-cards');
     updateUI();
-    if (playerScore > 21) {
-        endGame('You Bust! Dealer Wins!');
-    }
-}
+    if (playerScore > 21) endGame('You Bust! Dealer Wins!');
+});
 
-// Player Stands
-function stand() {
+document.getElementById('stand-button').addEventListener('click', () => {
     while (dealerScore < 17) {
         dealCard(dealerCards, 'dealer-cards');
         updateUI();
     }
-    if (dealerScore > 21) {
-        endGame('Dealer Busts! You Win!');
-    } else if (playerScore > dealerScore) {
-        endGame('You Win!');
-    } else if (playerScore < dealerScore) {
-        endGame('Dealer Wins!');
-    } else {
-        endGame("It's a Tie!");
-    }
-}
+    if (dealerScore > 21) endGame('Dealer Busts! You Win!');
+    else if (playerScore > dealerScore) endGame('You Win!');
+    else if (playerScore < dealerScore) endGame('Dealer Wins!');
+    else endGame("It's a Tie!");
+});
 
 // End Game
 function endGame(message) {
@@ -228,14 +202,9 @@ function endGame(message) {
 }
 
 // Restart Game
-function restartGame() {
+document.getElementById('deal-button').addEventListener('click', () => {
     resultMessageEl.style.display = 'none';
     document.getElementById('hit-button').disabled = false;
     document.getElementById('stand-button').disabled = false;
     initializeGame();
-}
-
-// Event Listeners for Game Controls
-document.getElementById('deal-button').addEventListener('click', restartGame);
-document.getElementById('hit-button').addEventListener('click', hit);
-document.getElementById('stand-button').addEventListener('click', stand);
+});
