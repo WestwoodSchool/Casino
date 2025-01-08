@@ -1,0 +1,109 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #006400; /* Fallback color in case the image doesn't load */
+    color: white;
+    text-align: center;
+}
+
+h2 {
+    margin: 0;
+    font-size: 24px;
+    color: gold;
+}
+
+#blackjack-table {
+    position: relative;
+    width: 900px; /* Adjust to match your table image size */
+    height: 600px; /* Adjust to match your table image size */
+    margin: 20px auto;
+    background-image: url('image.png'); /* Replace with the correct path to your table image */
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+}
+
+/* Dealer area */
+#dealer-area {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+#dealer-cards {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* Player area */
+#player-area {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+#player-cards {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* Controls */
+#controls {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    background-color: gold;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: orange;
+}
+
+/* Result Message */
+#message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    display: none; /* Initially hidden */
+}
+
+#message h2 {
+    margin: 0;
+}
+
+/* Card Styles */
+#dealer-cards img,
+#player-cards img {
+    width: 80px;
+    height: 120px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+}
