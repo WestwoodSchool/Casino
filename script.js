@@ -1,3 +1,26 @@
+// DOM Elements
+const introContainer = document.getElementById('intro-container');
+const introVideo = document.getElementById('intro-video');
+const introOverlay = document.getElementById('intro-overlay');
+const startGameButton = document.getElementById('start-game-button');
+const gameContainer = document.getElementById('game-container');
+const playerBankEl = document.getElementById('player-bank');
+const currentBetEl = document.getElementById('current-bet');
+const playerCardsEl = document.getElementById('player-cards');
+const dealerCardsEl = document.getElementById('dealer-cards');
+const playerScoreEl = document.getElementById('player-score');
+const dealerScoreEl = document.getElementById('dealer-score');
+const resultMessageEl = document.getElementById('result-message');
+
+// Game Variables
+let deck = [];
+let playerCards = [];
+let dealerCards = [];
+let playerScore = 0;
+let dealerScore = 0;
+let bank = 900;
+let currentBet = 100;
+
 // Card Image Mapping from ACBL Site
 const cardImages = {
     '2H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/2H.png',
@@ -54,23 +77,19 @@ const cardImages = {
     'AS': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/1S.png',
 };
 
-// Game Variables
-let deck = [];
-let playerCards = [];
-let dealerCards = [];
-let playerScore = 0;
-let dealerScore = 0;
-let bank = 900;
-let currentBet = 100;
+// Intro Video Event
+introVideo.addEventListener('ended', () => {
+    // Show overlay when the video ends
+    introOverlay.style.display = 'flex';
+    introVideo.style.objectFit = 'cover'; // Freeze the last frame
+});
 
-// DOM Elements
-const playerBankEl = document.getElementById('player-bank');
-const currentBetEl = document.getElementById('current-bet');
-const playerCardsEl = document.getElementById('player-cards');
-const dealerCardsEl = document.getElementById('dealer-cards');
-const playerScoreEl = document.getElementById('player-score');
-const dealerScoreEl = document.getElementById('dealer-score');
-const resultMessageEl = document.getElementById('result-message');
+// Start Game Button
+startGameButton.addEventListener('click', () => {
+    introContainer.style.display = 'none'; // Hide intro section
+    gameContainer.style.display = 'block'; // Show game section
+    initializeGame(); // Start the game
+});
 
 // Initialize Game
 function initializeGame() {
@@ -82,7 +101,7 @@ function initializeGame() {
     dealInitialCards();
 }
 
-// Create a Deck
+// Create Deck
 function createDeck() {
     const suits = ['H', 'D', 'C', 'S'];
     const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
@@ -94,7 +113,7 @@ function createDeck() {
     });
 }
 
-// Shuffle the Deck
+// Shuffle Deck
 function shuffleDeck() {
     for (let i = deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -108,7 +127,6 @@ function dealInitialCards() {
     dealerCards.push(deck.pop(), deck.pop());
     updateUI();
 
-    // Check for Blackjack
     if (calculateScore(playerCards) === 21) {
         endGame('Blackjack! You Win!');
     } else if (calculateScore(dealerCards) === 21) {
@@ -116,11 +134,10 @@ function dealInitialCards() {
     }
 }
 
-// Deal a Card
+// Deal Card
 function dealCard(hand, area) {
     const card = deck.pop();
     hand.push(card);
-
     const img = document.createElement('img');
     img.src = cardImages[card];
     document.getElementById(area).appendChild(img);
@@ -132,7 +149,7 @@ function calculateScore(cards) {
     let aces = 0;
 
     cards.forEach(card => {
-        const value = card.slice(0, -1); // Remove suit to get value
+        const value = card.slice(0, -1); // Get the value, ignoring suit
         if (['J', 'Q', 'K'].includes(value)) {
             score += 10;
         } else if (value === 'A') {
@@ -151,17 +168,15 @@ function calculateScore(cards) {
     return score;
 }
 
-// Update the UI
+// Update UI
 function updateUI() {
     playerCardsEl.innerHTML = '';
     dealerCardsEl.innerHTML = '';
-
     playerCards.forEach(card => {
         const img = document.createElement('img');
         img.src = cardImages[card];
         playerCardsEl.appendChild(img);
     });
-
     dealerCards.forEach(card => {
         const img = document.createElement('img');
         img.src = cardImages[card];
@@ -182,7 +197,6 @@ function updateUI() {
 function hit() {
     dealCard(playerCards, 'player-cards');
     updateUI();
-
     if (playerScore > 21) {
         endGame('You Bust! Dealer Wins!');
     }
@@ -194,7 +208,6 @@ function stand() {
         dealCard(dealerCards, 'dealer-cards');
         updateUI();
     }
-
     if (dealerScore > 21) {
         endGame('Dealer Busts! You Win!');
     } else if (playerScore > dealerScore) {
@@ -202,7 +215,7 @@ function stand() {
     } else if (playerScore < dealerScore) {
         endGame('Dealer Wins!');
     } else {
-        endGame('It\'s a Tie!');
+        endGame("It's a Tie!");
     }
 }
 
@@ -210,7 +223,6 @@ function stand() {
 function endGame(message) {
     resultMessageEl.querySelector('h2').textContent = message;
     resultMessageEl.style.display = 'block';
-
     document.getElementById('hit-button').disabled = true;
     document.getElementById('stand-button').disabled = true;
 }
@@ -220,14 +232,10 @@ function restartGame() {
     resultMessageEl.style.display = 'none';
     document.getElementById('hit-button').disabled = false;
     document.getElementById('stand-button').disabled = false;
-
     initializeGame();
 }
 
-// Event Listeners
+// Event Listeners for Game Controls
 document.getElementById('deal-button').addEventListener('click', restartGame);
 document.getElementById('hit-button').addEventListener('click', hit);
 document.getElementById('stand-button').addEventListener('click', stand);
-
-// Initialize the game on page load
-initializeGame();
