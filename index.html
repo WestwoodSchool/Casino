@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Westwood Casino</title>
+    <title>Blackjack Table</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,25 +19,28 @@
         </div>
     </div>
 
-    <!-- Home Page -->
-    <div id="home-container" style="display: none;">
-        <div id="home-background">
-            <img src="photo0jpg.jpg" alt="Casino Background">
+    <!-- Blackjack Table -->
+    <div id="blackjack-container" style="display: none;">
+        <div id="table-background">
+            <img src="istockphoto-1097396080-612x612.jpg" alt="Blackjack Table">
         </div>
-        <div id="game-buttons">
-            <!-- Card Buttons -->
-            <button class="game-card" data-game="blackjack">
-                <img src="image (1).png" alt="Blackjack">
-            </button>
-            <button class="game-card" data-game="slots">
-                <img src="image (2).png" alt="Slots">
-            </button>
-            <button class="game-card" data-game="plinko">
-                <img src="image (3).png" alt="Plinko">
-            </button>
-            <button class="game-card" data-game="poker">
-                <img src="Screenshot 2025-01-07 222316.png" alt="Poker">
-            </button>
+        <!-- Dealer Cards -->
+        <div id="dealer-cards" class="card-zone">
+            <img class="card" src="image (1).png" alt="Card 1">
+            <img class="card" src="image (2).png" alt="Card 2">
+        </div>
+
+        <!-- Player Cards -->
+        <div id="player-cards" class="card-zone">
+            <img class="card" src="image (3).png" alt="Card 3">
+            <img class="card" src="Screenshot 2025-01-07 222316.png" alt="Card 4">
+        </div>
+
+        <!-- Action Buttons -->
+        <div id="action-buttons">
+            <button id="hit-button">Hit</button>
+            <button id="stand-button">Stand</button>
+            <button id="deal-button">Deal</button>
         </div>
     </div>
 
