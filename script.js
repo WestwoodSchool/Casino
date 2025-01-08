@@ -1,32 +1,42 @@
 // Game Variables
-const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
-const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 let deck = [];
 let playerCards = [];
 let dealerCards = [];
 let playerScore = 0;
 let dealerScore = 0;
+let bank = 900;
+let currentBet = 100;
 
-// Initialize the Game
+// DOM Elements
+const playerBankEl = document.getElementById('player-bank');
+const currentBetEl = document.getElementById('current-bet');
+const playerCardsEl = document.getElementById('player-cards');
+const dealerCardsEl = document.getElementById('dealer-cards');
+const playerScoreEl = document.getElementById('player-score');
+const dealerScoreEl = document.getElementById('dealer-score');
+const resultMessageEl = document.getElementById('result-message');
+
+// Initialize Game
 function initializeGame() {
-    createDeck();
+    playerCards = [];
+    dealerCards = [];
+    deck = createDeck();
     shuffleDeck();
-
-    playerCards = [deck.pop(), deck.pop()];
-    dealerCards = [deck.pop(), deck.pop()];
-
     updateUI();
-    checkInitialBlackjack();
+    dealInitialCards();
 }
 
 // Create a Deck
 function createDeck() {
-    deck = [];
-    suits.forEach((suit) => {
-        values.forEach((value) => {
+    const suits = ['hearts', 'diamonds', 'clubs', 'spades'];
+    const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+    const deck = [];
+    suits.forEach(suit => {
+        values.forEach(value => {
             deck.push({ suit, value });
         });
     });
+    return deck;
 }
 
 // Shuffle the Deck
@@ -58,12 +68,36 @@ function getCardImage(card) {
     return `https://acbl.mybigcommerce.com/product_images/uploaded_images/${valueChar}${suitChar}.png`;
 }
 
+// Deal Initial Cards
+function dealInitialCards() {
+    playerCards.push(deck.pop(), deck.pop());
+    dealerCards.push(deck.pop(), deck.pop());
+    updateUI();
+
+    // Check for Blackjack
+    if (calculateScore(playerCards) === 21) {
+        endGame('Blackjack! You Win!');
+    } else if (calculateScore(dealerCards) === 21) {
+        endGame('Dealer has Blackjack! You Lose!');
+    }
+}
+
+// Deal a Card
+function dealCard(hand, area) {
+    const card = deck.pop();
+    hand.push(card);
+
+    const img = document.createElement('img');
+    img.src = getCardImage(card);
+    document.getElementById(area).appendChild(img);
+}
+
 // Calculate Score
 function calculateScore(cards) {
     let score = 0;
     let aces = 0;
 
-    cards.forEach((card) => {
+    cards.forEach(card => {
         if (['J', 'Q', 'K'].includes(card.value)) {
             score += 10;
         } else if (card.value === 'A') {
@@ -82,87 +116,105 @@ function calculateScore(cards) {
     return score;
 }
 
-// Update UI
+// Update the UI
 function updateUI() {
-    const playerCardsDiv = document.getElementById('player-cards');
-    const dealerCardsDiv = document.getElementById('dealer-cards');
-    const playerScoreSpan = document.getElementById('player-score');
-    const dealerScoreSpan = document.getElementById('dealer-score');
+    playerCardsEl.innerHTML = '';
+    dealerCardsEl.innerHTML = '';
 
-    playerCardsDiv.innerHTML = '';
-    dealerCardsDiv.innerHTML = '';
-
-    playerCards.forEach((card) => {
+    playerCards.forEach(card => {
         const img = document.createElement('img');
         img.src = getCardImage(card);
-        playerCardsDiv.appendChild(img);
+        playerCardsEl.appendChild(img);
     });
 
-    dealerCards.forEach((card) => {
+    dealerCards.forEach(card => {
         const img = document.createElement('img');
         img.src = getCardImage(card);
-        dealerCardsDiv.appendChild(img);
+        dealerCardsEl.appendChild(img);
     });
 
     playerScore = calculateScore(playerCards);
     dealerScore = calculateScore(dealerCards);
 
-    playerScoreSpan.textContent = playerScore;
-    dealerScoreSpan.textContent = dealerScore;
+    playerScoreEl.textContent = playerScore;
+    dealerScoreEl.textContent = dealerScore;
+
+    playerBankEl.textContent = `$${bank}`;
+    currentBetEl.textContent = `$${currentBet}`;
 }
 
-// Check Initial Blackjack
-function checkInitialBlackjack() {
-    if (playerScore === 21) {
-        document.getElementById('result-message').textContent = 'Blackjack! You Win!';
-        document.getElementById('message').style.display = 'block';
-    } else if (dealerScore === 21) {
-        document.getElementById('result-message').textContent = 'Dealer has Blackjack! You Lose!';
-        document.getElementById('message').style.display = 'block';
-    }
-}
-
-// Hit Action
+// Player Hits
 function hit() {
-    playerCards.push(deck.pop());
+    dealCard(playerCards, 'player-cards');
     updateUI();
 
     if (playerScore > 21) {
-        document.getElementById('result-message').textContent = 'You Bust! Dealer Wins!';
-        document.getElementById('message').style.display = 'block';
+        endGame('You Bust! Dealer Wins!');
     }
 }
 
-// Stand Action
+// Player Stands
 function stand() {
     while (dealerScore < 17) {
-        dealerCards.push(deck.pop());
+        dealCard(dealerCards, 'dealer-cards');
         updateUI();
     }
 
     if (dealerScore > 21) {
-        document.getElementById('result-message').textContent = 'Dealer Busts! You Win!';
+        endGame('Dealer Busts! You Win!');
     } else if (playerScore > dealerScore) {
-        document.getElementById('result-message').textContent = 'You Win!';
+        endGame('You Win!');
     } else if (playerScore < dealerScore) {
-        document.getElementById('result-message').textContent = 'Dealer Wins!';
+        endGame('Dealer Wins!');
     } else {
-        document.getElementById('result-message').textContent = 'It\'s a Tie!';
+        endGame('It\'s a Tie!');
     }
+}
 
-    document.getElementById('message').style.display = 'block';
+// Double Down
+function doubleDown() {
+    if (bank >= currentBet) {
+        bank -= currentBet;
+        currentBet *= 2;
+        hit();
+
+        if (playerScore <= 21) {
+            stand();
+        }
+    } else {
+        alert('Not enough money to double down!');
+    }
+}
+
+// End Game
+function endGame(message) {
+    resultMessageEl.querySelector('h2').textContent = message;
+    resultMessageEl.style.display = 'block';
+
+    // Disable buttons
+    document.getElementById('hit-button').disabled = true;
+    document.getElementById('stand-button').disabled = true;
+    document.getElementById('double-button').disabled = true;
 }
 
 // Restart Game
 function restartGame() {
-    document.getElementById('message').style.display = 'none';
+    bank += currentBet; // Reset the bet
+    currentBet = 100;
+
+    resultMessageEl.style.display = 'none';
+    document.getElementById('hit-button').disabled = false;
+    document.getElementById('stand-button').disabled = false;
+    document.getElementById('double-button').disabled = false;
+
     initializeGame();
 }
 
 // Event Listeners
+document.getElementById('deal-button').addEventListener('click', restartGame);
 document.getElementById('hit-button').addEventListener('click', hit);
 document.getElementById('stand-button').addEventListener('click', stand);
-document.getElementById('restart-button').addEventListener('click', restartGame);
+document.getElementById('double-button').addEventListener('click', doubleDown);
 
-// Start the Game
+// Initialize the game on page load
 initializeGame();
