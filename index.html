@@ -9,7 +9,7 @@
 <body>
     <!-- Intro Section -->
     <div id="intro-container">
-        <video id="intro-video" autoplay muted loop>
+        <video id="intro-video" autoplay muted>
             <source src="20250107_2058_Luxurious Garden and Casino_remix_01jh1xk9wwfgcvf4wbcn2e2dkp.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -59,8 +59,8 @@
                 <button id="deal-button">Deal</button>
                 <button id="hit-button">Hit</button>
                 <button id="stand-button">Stand</button>
-                <button id="double-button">Double</button>
-                <button id="split-button">Split</button>
+                <button id="double-button" disabled>Double</button>
+                <button id="split-button" disabled>Split</button>
             </div>
 
             <!-- Game Result Message -->
@@ -70,72 +70,6 @@
         </div>
     </div>
 
-    <script>
-        // Manually Map Card Images
-        const cardImages = {
-            '2H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/2H.png',
-            '3H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/3H.png',
-            '4H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/4H.png',
-            '5H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/5H.png',
-            '6H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/6H.png',
-            '7H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/7H.png',
-            '8H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/8H.png',
-            '9H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/9H.png',
-            '10H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/10H.png',
-            'JH': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/11H.png',
-            'QH': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/12H.png',
-            'KH': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/13H.png',
-            'AH': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/1H.png',
-            '2D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/2D.png',
-            '3D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/3D.png',
-            '4D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/4D.png',
-            '5D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/5D.png',
-            '6D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/6D.png',
-            '7D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/7D.png',
-            '8D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/8D.png',
-            '9D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/9D.png',
-            '10D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/10D.png',
-            'JD': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/11D.png',
-            'QD': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/12D.png',
-            'KD': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/13D.png',
-            'AD': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/1D.png',
-            '2C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/2C.png',
-            '3C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/3C.png',
-            '4C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/4C.png',
-            '5C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/5C.png',
-            '6C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/6C.png',
-            '7C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/7C.png',
-            '8C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/8C.png',
-            '9C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/9C.png',
-            '10C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/10C.png',
-            'JC': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/11C.png',
-            'QC': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/12C.png',
-            'KC': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/13C.png',
-            'AC': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/1C.png',
-            '2S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/2S.png',
-            '3S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/3S.png',
-            '4S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/4S.png',
-            '5S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/5S.png',
-            '6S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/6S.png',
-            '7S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/7S.png',
-            '8S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/8S.png',
-            '9S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/9S.png',
-            '10S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/10S.png',
-            'JS': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/11S.png',
-            'QS': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/12S.png',
-            'KS': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/13S.png',
-            'AS': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/1S.png',
-        };
-
-        function initializeGame() {
-            // Initialize game logic here
-        }
-
-        document.getElementById('start-game-button').addEventListener('click', () => {
-            document.getElementById('intro-container').style.display = 'none';
-            document.getElementById('game-container').style.display = 'block';
-            initializeGame();
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
