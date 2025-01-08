@@ -8,30 +8,50 @@
 </head>
 <body>
     <div id="blackjack-table">
-        <!-- Dealer Area -->
-        <div id="dealer-area">
+        <!-- Bank Section -->
+        <div id="bank-section">
+            <p>Bank: <span id="player-bank">$900</span></p>
+        </div>
+
+        <!-- Betting Area -->
+        <div id="betting-area">
+            <p>Current Bet: <span id="current-bet">$100</span></p>
+            <div id="chips">
+                <button class="chip" data-value="1">$1</button>
+                <button class="chip" data-value="5">$5</button>
+                <button class="chip" data-value="25">$25</button>
+                <button class="chip" data-value="50">$50</button>
+                <button class="chip" data-value="100">$100</button>
+                <button class="chip" data-value="500">$500</button>
+            </div>
+        </div>
+
+        <!-- Dealer Section -->
+        <div id="dealer-section">
             <h2>Dealer</h2>
-            <div id="dealer-cards"></div>
+            <div id="dealer-cards" class="cards"></div>
             <p>Score: <span id="dealer-score">0</span></p>
         </div>
 
-        <!-- Player Area -->
-        <div id="player-area">
+        <!-- Player Section -->
+        <div id="player-section">
             <h2>Player</h2>
-            <div id="player-cards"></div>
+            <div id="player-cards" class="cards"></div>
             <p>Score: <span id="player-score">0</span></p>
         </div>
 
-        <!-- Controls -->
+        <!-- Game Controls -->
         <div id="controls">
+            <button id="deal-button">Deal</button>
             <button id="hit-button">Hit</button>
             <button id="stand-button">Stand</button>
-            <button id="restart-button">Restart</button>
+            <button id="double-button">Double</button>
+            <button id="split-button">Split</button>
         </div>
 
-        <!-- Message -->
-        <div id="message">
-            <h2 id="result-message"></h2>
+        <!-- Game Result Message -->
+        <div id="result-message">
+            <h2></h2>
         </div>
     </div>
     <script src="script.js"></script>
