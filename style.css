@@ -3,9 +3,6 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #006400; /* Green casino-style background */
-    color: white;
-    text-align: center;
     overflow: hidden;
 }
 
@@ -37,172 +34,88 @@ body {
     position: absolute;
     z-index: 2;
     text-align: center;
-    display: none; /* Hidden until the video ends */
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column; /* Stack elements vertically */
-    width: 100%; /* Ensures overlay covers full width */
-    height: 100%; /* Ensures overlay covers full height */
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Semi-transparent dark overlay */
+    backdrop-filter: blur(10px); /* Blurred background effect */
 }
 
 #intro-overlay h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
+    font-size: 48px;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Shadow for better readability */
+    margin-bottom: 20px;
 }
 
-/* Adjust the button position */
-#start-game-button {
-    background-color: gold;
+#start-button {
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent button */
     color: black;
     border: none;
     padding: 15px 30px;
     font-size: 18px;
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
-    position: relative;
-    margin-top: 20px;
-}
-
-#start-game-button:hover {
-    background-color: orange;
-}
-
-/* Game Section */
-#game-container {
-    display: none; /* Hidden until intro is finished */
-    width: 100%;
-    height: 100%;
-    background-color: #006400; /* Green casino-style background */
-}
-
-/* Table Layout */
-#blackjack-table {
-    position: relative;
-    width: 90%;
-    max-width: 800px;
-    margin: 20px auto;
-    background: #003300; /* Dark green for the table */
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.7);
-    border: 2px solid #4CAF50; /* Gold border for a premium look */
-}
-
-/* Bank Section */
-#bank-section {
-    margin-bottom: 20px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #FFD700; /* Gold text for the bank display */
-}
-
-/* Betting Area */
-#betting-area {
-    margin-bottom: 20px;
-}
-
-#betting-area p {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-#chips {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.chip {
-    background-color: #444;
-    color: white;
-    border: 2px solid white;
-    border-radius: 50%;
-    padding: 15px 25px;
-    font-size: 16px;
-    cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.chip:hover {
-    background-color: gold;
-    color: black;
+#start-button:hover {
+    background: rgba(255, 255, 255, 1);
 }
 
-/* Dealer and Player Sections */
-#dealer-section, #player-section {
-    margin: 30px 0;
-}
-
-h2 {
-    margin: 0;
-    font-size: 24px;
-    color: #FFD700; /* Gold for section titles */
-}
-
-.cards {
+/* Home Page */
+#home-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin: 10px 0;
+    align-items: center;
+    overflow: hidden;
+    background-color: black;
 }
 
-.cards img {
-    width: 80px;
-    height: 120px;
-    border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5); /* Shadow for card depth */
+#home-background img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.7; /* Darkened background */
 }
 
-/* Controls */
-#controls {
+#game-buttons {
+    z-index: 1;
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
+    align-items: center;
+    gap: 20px;
 }
 
-button {
-    background-color: gold;
+.game-card {
+    width: 150px;
+    height: 200px;
+    background: white;
     color: black;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: orange;
-}
-
-/* Result Message */
-#result-message {
-    margin-top: 20px;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: bold;
-    color: white;
-    display: none; /* Hidden by default */
+    border: 2px solid #FFD700; /* Gold border for casino feel */
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5); /* Card shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
-/* Responsive Design */
-@media (max-width: 600px) {
-    .cards img {
-        width: 60px;
-        height: 90px;
-    }
-
-    #start-game-button {
-        padding: 10px 20px;
-        font-size: 16px;
-    }
-
-    button {
-        padding: 8px 15px;
-        font-size: 14px;
-    }
+.game-card:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.7);
 }
