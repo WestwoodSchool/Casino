@@ -28,9 +28,31 @@ startButton.addEventListener('click', () => {
 // Add event listeners to game cards
 gameCards.forEach(card => {
     card.addEventListener('click', (e) => {
-        const game = e.target.dataset.game; // Get the selected game from the button
-        alert(`Navigating to ${game} game...`); // Placeholder for game navigation
-        // To navigate to another page, uncomment the line below:
-        // window.location.href = `${game}.html`;
+        const game = e.target.closest('.game-card').dataset.game; // Get the selected game
+        navigateToGame(game);
     });
 });
+
+// Function to navigate to the selected game
+function navigateToGame(game) {
+    switch (game) {
+        case 'blackjack':
+            alert('Navigating to Blackjack...'); // Placeholder for Blackjack navigation
+            // Example: window.location.href = 'blackjack.html';
+            break;
+        case 'slots':
+            alert('Navigating to Slots...'); // Placeholder for Slots navigation
+            // Example: window.location.href = 'slots.html';
+            break;
+        case 'plinko':
+            alert('Navigating to Plinko...'); // Placeholder for Plinko navigation
+            // Example: window.location.href = 'plinko.html';
+            break;
+        case 'poker':
+            alert('Navigating to Poker...'); // Placeholder for Poker navigation
+            // Example: window.location.href = 'poker.html';
+            break;
+        default:
+            console.error('Game not recognized:', game);
+    }
+}
