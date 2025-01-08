@@ -7,53 +7,141 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="blackjack-table">
-        <!-- Bank Section -->
-        <div id="bank-section">
-            <p>Bank: <span id="player-bank">$900</span></p>
-        </div>
-
-        <!-- Betting Area -->
-        <div id="betting-area">
-            <p>Current Bet: <span id="current-bet">$100</span></p>
-            <div id="chips">
-                <button class="chip" data-value="1">$1</button>
-                <button class="chip" data-value="5">$5</button>
-                <button class="chip" data-value="25">$25</button>
-                <button class="chip" data-value="50">$50</button>
-                <button class="chip" data-value="100">$100</button>
-                <button class="chip" data-value="500">$500</button>
-            </div>
-        </div>
-
-        <!-- Dealer Section -->
-        <div id="dealer-section">
-            <h2>Dealer</h2>
-            <div id="dealer-cards" class="cards"></div>
-            <p>Score: <span id="dealer-score">0</span></p>
-        </div>
-
-        <!-- Player Section -->
-        <div id="player-section">
-            <h2>Player</h2>
-            <div id="player-cards" class="cards"></div>
-            <p>Score: <span id="player-score">0</span></p>
-        </div>
-
-        <!-- Game Controls -->
-        <div id="controls">
-            <button id="deal-button">Deal</button>
-            <button id="hit-button">Hit</button>
-            <button id="stand-button">Stand</button>
-            <button id="double-button">Double</button>
-            <button id="split-button">Split</button>
-        </div>
-
-        <!-- Game Result Message -->
-        <div id="result-message">
-            <h2></h2>
+    <!-- Intro Section -->
+    <div id="intro-container">
+        <video id="intro-video" autoplay muted loop>
+            <source src="20250107_2058_Luxurious Garden and Casino_remix_01jh1xk9wwfgcvf4wbcn2e2dkp.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div id="intro-overlay">
+            <h1>Welcome to Blackjack!</h1>
+            <button id="start-game-button">Start Game</button>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <!-- Game Section (Initially Hidden) -->
+    <div id="game-container" style="display: none;">
+        <div id="blackjack-table">
+            <!-- Bank Section -->
+            <div id="bank-section">
+                <p>Bank: <span id="player-bank">$900</span></p>
+            </div>
+
+            <!-- Betting Area -->
+            <div id="betting-area">
+                <p>Current Bet: <span id="current-bet">$100</span></p>
+                <div id="chips">
+                    <button class="chip" data-value="1">$1</button>
+                    <button class="chip" data-value="5">$5</button>
+                    <button class="chip" data-value="25">$25</button>
+                    <button class="chip" data-value="50">$50</button>
+                    <button class="chip" data-value="100">$100</button>
+                    <button class="chip" data-value="500">$500</button>
+                </div>
+            </div>
+
+            <!-- Dealer Section -->
+            <div id="dealer-section">
+                <h2>Dealer</h2>
+                <div id="dealer-cards" class="cards"></div>
+                <p>Score: <span id="dealer-score">0</span></p>
+            </div>
+
+            <!-- Player Section -->
+            <div id="player-section">
+                <h2>Player</h2>
+                <div id="player-cards" class="cards"></div>
+                <p>Score: <span id="player-score">0</span></p>
+            </div>
+
+            <!-- Game Controls -->
+            <div id="controls">
+                <button id="deal-button">Deal</button>
+                <button id="hit-button">Hit</button>
+                <button id="stand-button">Stand</button>
+                <button id="double-button">Double</button>
+                <button id="split-button">Split</button>
+            </div>
+
+            <!-- Game Result Message -->
+            <div id="result-message">
+                <h2></h2>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Manually Map Card Images
+        const cardImages = {
+            '2H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/2H.png',
+            '3H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/3H.png',
+            '4H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/4H.png',
+            '5H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/5H.png',
+            '6H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/6H.png',
+            '7H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/7H.png',
+            '8H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/8H.png',
+            '9H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/9H.png',
+            '10H': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/10H.png',
+            'JH': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/11H.png',
+            'QH': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/12H.png',
+            'KH': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/13H.png',
+            'AH': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/1H.png',
+            // Add all other suits: diamonds (D), clubs (C), spades (S)
+            // Continue mapping similar to hearts
+        };
+
+        let deck = [];
+        let playerCards = [];
+        let dealerCards = [];
+        let bank = 900;
+        let currentBet = 100;
+
+        function createDeck() {
+            const suits = ['H', 'D', 'C', 'S'];
+            const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+            deck = [];
+            suits.forEach(suit => {
+                values.forEach(value => {
+                    deck.push(value + suit);
+                });
+            });
+        }
+
+        function shuffleDeck() {
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+        }
+
+        function dealCard(hand, area) {
+            const card = deck.pop();
+            hand.push(card);
+
+            const img = document.createElement('img');
+            img.src = cardImages[card];
+            document.getElementById(area).appendChild(img);
+        }
+
+        function startGame() {
+            playerCards = [];
+            dealerCards = [];
+            createDeck();
+            shuffleDeck();
+
+            dealCard(playerCards, 'player-cards');
+            dealCard(playerCards, 'player-cards');
+            dealCard(dealerCards, 'dealer-cards');
+            dealCard(dealerCards, 'dealer-cards');
+        }
+
+        document.getElementById('start-game-button').addEventListener('click', () => {
+            document.getElementById('intro-container').style.display = 'none';
+            document.getElementById('game-container').style.display = 'block';
+            startGame();
+        });
+
+        document.getElementById('deal-button').addEventListener('click', startGame);
+    </script>
 </body>
 </html>
