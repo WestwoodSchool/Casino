@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blackjack</title>
+    <title>Westwood Casino</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,59 +14,20 @@
             Your browser does not support the video tag.
         </video>
         <div id="intro-overlay">
-            <h1>Welcome to Blackjack!</h1>
-            <button id="start-game-button">Start Game</button>
+            <h1>Welcome to Westwood Casino</h1>
+            <button id="start-button">Enter</button>
         </div>
     </div>
 
-    <!-- Game Section -->
-    <div id="game-container" style="display: none;">
-        <div id="blackjack-table">
-            <!-- Bank Section -->
-            <div id="bank-section">
-                <p>Bank: <span id="player-bank">$900</span></p>
-            </div>
-
-            <!-- Betting Area -->
-            <div id="betting-area">
-                <p>Current Bet: <span id="current-bet">$100</span></p>
-                <div id="chips">
-                    <button class="chip" data-value="1">$1</button>
-                    <button class="chip" data-value="5">$5</button>
-                    <button class="chip" data-value="25">$25</button>
-                    <button class="chip" data-value="50">$50</button>
-                    <button class="chip" data-value="100">$100</button>
-                    <button class="chip" data-value="500">$500</button>
-                </div>
-            </div>
-
-            <!-- Dealer Section -->
-            <div id="dealer-section">
-                <h2>Dealer</h2>
-                <div id="dealer-cards" class="cards"></div>
-                <p>Score: <span id="dealer-score">0</span></p>
-            </div>
-
-            <!-- Player Section -->
-            <div id="player-section">
-                <h2>Player</h2>
-                <div id="player-cards" class="cards"></div>
-                <p>Score: <span id="player-score">0</span></p>
-            </div>
-
-            <!-- Game Controls -->
-            <div id="controls">
-                <button id="deal-button">Deal</button>
-                <button id="hit-button">Hit</button>
-                <button id="stand-button">Stand</button>
-                <button id="double-button" disabled>Double</button>
-                <button id="split-button" disabled>Split</button>
-            </div>
-
-            <!-- Game Result Message -->
-            <div id="result-message" style="display: none;">
-                <h2></h2>
-            </div>
+    <!-- Home Page -->
+    <div id="home-container" style="display: none;">
+        <div id="home-background">
+            <img src="photo0jpg.jpg" alt="Casino Background">
+        </div>
+        <div id="game-buttons">
+            <button class="game-card" data-game="blackjack">Blackjack</button>
+            <button class="game-card" data-game="slots">Slots</button>
+            <button class="game-card" data-game="plinko">Plinko</button>
         </div>
     </div>
 
