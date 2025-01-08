@@ -3,56 +3,93 @@ const introContainer = document.getElementById('intro-container');
 const introVideo = document.getElementById('intro-video');
 const introOverlay = document.getElementById('intro-overlay');
 const startButton = document.getElementById('start-button');
-const homeContainer = document.getElementById('home-container');
-const gameCards = document.querySelectorAll('.game-card');
+const blackjackContainer = document.getElementById('blackjack-container');
+const dealerCardsZone = document.getElementById('dealer-cards');
+const playerCardsZone = document.getElementById('player-cards');
+const hitButton = document.getElementById('hit-button');
+const standButton = document.getElementById('stand-button');
+const dealButton = document.getElementById('deal-button');
 
-// Add blur effect to the video during the last second
+// Card data for testing (you can replace this with dynamic card generation later)
+const cardImages = [
+    "image (1).png", // Example card
+    "image (2).png",
+    "image (3).png",
+    "Screenshot 2025-01-07 222316.png"
+];
+
+// Event: Video Ends
 introVideo.addEventListener('timeupdate', () => {
     const timeRemaining = introVideo.duration - introVideo.currentTime;
     if (timeRemaining <= 1) {
-        introVideo.style.filter = 'blur(10px)'; // Add blur effect
+        introVideo.style.filter = 'blur(10px)'; // Add blur in the last second
     }
 });
 
-// Show overlay and button when the video ends
 introVideo.addEventListener('ended', () => {
-    introOverlay.style.display = 'flex'; // Display overlay
+    introOverlay.style.display = 'flex'; // Show overlay with the "Enter" button
 });
 
-// Handle "Enter" button click
+// Event: Enter Button Click
 startButton.addEventListener('click', () => {
     introContainer.style.display = 'none'; // Hide intro section
-    homeContainer.style.display = 'flex'; // Show home page
+    blackjackContainer.style.display = 'block'; // Show blackjack table
 });
 
-// Add event listeners to game cards
-gameCards.forEach(card => {
-    card.addEventListener('click', (e) => {
-        const game = e.target.closest('.game-card').dataset.game; // Get the selected game
-        navigateToGame(game);
-    });
+// Event: Deal Button Click
+dealButton.addEventListener('click', () => {
+    resetTable(); // Reset the table for a new round
+    dealCards(); // Deal initial cards to the dealer and player
 });
 
-// Function to navigate to the selected game
-function navigateToGame(game) {
-    switch (game) {
-        case 'blackjack':
-            alert('Navigating to Blackjack...'); // Placeholder for Blackjack navigation
-            // Example: window.location.href = 'blackjack.html';
-            break;
-        case 'slots':
-            alert('Navigating to Slots...'); // Placeholder for Slots navigation
-            // Example: window.location.href = 'slots.html';
-            break;
-        case 'plinko':
-            alert('Navigating to Plinko...'); // Placeholder for Plinko navigation
-            // Example: window.location.href = 'plinko.html';
-            break;
-        case 'poker':
-            alert('Navigating to Poker...'); // Placeholder for Poker navigation
-            // Example: window.location.href = 'poker.html';
-            break;
-        default:
-            console.error('Game not recognized:', game);
+// Event: Hit Button Click
+hitButton.addEventListener('click', () => {
+    dealCard(playerCardsZone); // Give the player another card
+});
+
+// Event: Stand Button Click
+standButton.addEventListener('click', () => {
+    dealerPlay(); // Dealer plays their turn
+    determineWinner(); // Determine the winner
+});
+
+// Function to reset the table
+function resetTable() {
+    dealerCardsZone.innerHTML = ''; // Clear dealer's cards
+    playerCardsZone.innerHTML = ''; // Clear player's cards
+}
+
+// Function to deal initial cards
+function dealCards() {
+    // Deal 2 cards to the dealer
+    dealCard(dealerCardsZone);
+    dealCard(dealerCardsZone);
+
+    // Deal 2 cards to the player
+    dealCard(playerCardsZone);
+    dealCard(playerCardsZone);
+}
+
+// Function to deal a card
+function dealCard(targetZone) {
+    const cardIndex = Math.floor(Math.random() * cardImages.length); // Get a random card
+    const cardImg = document.createElement('img');
+    cardImg.src = cardImages[cardIndex];
+    cardImg.alt = "Card";
+    cardImg.classList.add('card');
+    targetZone.appendChild(cardImg); // Add the card to the target zone
+}
+
+// Function for the dealer's turn
+function dealerPlay() {
+    while (dealerCardsZone.children.length < 5) {
+        // Dealer keeps hitting until 5 cards (basic logic)
+        dealCard(dealerCardsZone);
     }
+}
+
+// Function to determine the winner (basic placeholder)
+function determineWinner() {
+    alert("Round Over! This is where you determine the winner.");
+    // Add actual blackjack logic here to calculate the scores
 }
