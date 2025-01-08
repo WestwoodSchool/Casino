@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <!-- Game Section (Initially Hidden) -->
+    <!-- Game Section -->
     <div id="game-container" style="display: none;">
         <div id="blackjack-table">
             <!-- Bank Section -->
@@ -86,62 +86,56 @@
             'QH': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/12H.png',
             'KH': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/13H.png',
             'AH': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/1H.png',
-            // Add all other suits: diamonds (D), clubs (C), spades (S)
-            // Continue mapping similar to hearts
+            '2D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/2D.png',
+            '3D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/3D.png',
+            '4D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/4D.png',
+            '5D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/5D.png',
+            '6D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/6D.png',
+            '7D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/7D.png',
+            '8D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/8D.png',
+            '9D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/9D.png',
+            '10D': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/10D.png',
+            'JD': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/11D.png',
+            'QD': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/12D.png',
+            'KD': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/13D.png',
+            'AD': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/1D.png',
+            '2C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/2C.png',
+            '3C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/3C.png',
+            '4C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/4C.png',
+            '5C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/5C.png',
+            '6C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/6C.png',
+            '7C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/7C.png',
+            '8C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/8C.png',
+            '9C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/9C.png',
+            '10C': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/10C.png',
+            'JC': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/11C.png',
+            'QC': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/12C.png',
+            'KC': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/13C.png',
+            'AC': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/1C.png',
+            '2S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/2S.png',
+            '3S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/3S.png',
+            '4S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/4S.png',
+            '5S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/5S.png',
+            '6S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/6S.png',
+            '7S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/7S.png',
+            '8S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/8S.png',
+            '9S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/9S.png',
+            '10S': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/10S.png',
+            'JS': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/11S.png',
+            'QS': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/12S.png',
+            'KS': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/13S.png',
+            'AS': 'https://acbl.mybigcommerce.com/product_images/uploaded_images/1S.png',
         };
 
-        let deck = [];
-        let playerCards = [];
-        let dealerCards = [];
-        let bank = 900;
-        let currentBet = 100;
-
-        function createDeck() {
-            const suits = ['H', 'D', 'C', 'S'];
-            const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-            deck = [];
-            suits.forEach(suit => {
-                values.forEach(value => {
-                    deck.push(value + suit);
-                });
-            });
-        }
-
-        function shuffleDeck() {
-            for (let i = deck.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [deck[i], deck[j]] = [deck[j], deck[i]];
-            }
-        }
-
-        function dealCard(hand, area) {
-            const card = deck.pop();
-            hand.push(card);
-
-            const img = document.createElement('img');
-            img.src = cardImages[card];
-            document.getElementById(area).appendChild(img);
-        }
-
-        function startGame() {
-            playerCards = [];
-            dealerCards = [];
-            createDeck();
-            shuffleDeck();
-
-            dealCard(playerCards, 'player-cards');
-            dealCard(playerCards, 'player-cards');
-            dealCard(dealerCards, 'dealer-cards');
-            dealCard(dealerCards, 'dealer-cards');
+        function initializeGame() {
+            // Initialize game logic here
         }
 
         document.getElementById('start-game-button').addEventListener('click', () => {
             document.getElementById('intro-container').style.display = 'none';
             document.getElementById('game-container').style.display = 'block';
-            startGame();
+            initializeGame();
         });
-
-        document.getElementById('deal-button').addEventListener('click', startGame);
     </script>
 </body>
 </html>
